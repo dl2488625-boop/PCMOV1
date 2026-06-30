@@ -30,7 +30,7 @@ local GearItems = {
 	"Basic Pot", "Common Sprinkler", "Common Watering Can", "Flashbang", "Gnome",
 	"Invisibility Mushroom", "Jump Mushroom", "Lantern", "Legendary Sprinkler", "Padding", "Rare Sprinkler",
 	"Shrink Mushroom", "Sign", "Speed Mushroom", "Super Sprinkler", "Super Watering Can", "Supersize Mushroom",
-	"Teleporter", "Trowel", "Uncommon Sprinkler", "Wheelbarrow"
+	"Teleporter", "Trowel", "Uncommon Sprinkler", "Wheelbarrow", "Super Pet Teleporter"
 }
 
 local EggItems = {
