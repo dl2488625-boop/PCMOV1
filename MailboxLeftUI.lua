@@ -16,14 +16,14 @@ local DefaultStackCount = 1
 local DefaultSingleCount = 1
 
 local PlantItems = {
-	"Rainbow","Gold","Acorn", "Apple", "Bamboo", "Banana", "Blueberry", "Cactus", "Carrot", "Cherry", "Coconut",
+	"Hypno Bloom","Mega","Rainbow","Gold","Acorn", "Apple", "Bamboo", "Banana", "Blueberry", "Cactus", "Carrot", "Cherry", "Coconut",
 	"Corn", "Dragon fruit", "Dragon's Breath", "Grape", "Green bean", "Mango", "Moon bloom", "Mushroom",
-	"Pineapple", "Poison apple", "Pomegranate", "Strawberry", "Sunflower", "Tomato", "Tulip", "Venus fly trap"
+	"Pineapple", "Poison apple", "Pomegranate", "Strawberry", "Sunflower", "Tomato", "Tulip", "Venus fly trap", "Venom Spitter"
 }
 
 local PetItems = {
 	"Bee", "BlackDragon", "Bunny", "Deer", "Dragonfly", "Frog", "GoldenDragonfly",
-	"IceSerpent", "Monkey", "Owl", "Raccoon", "Robin", "Unicorn"
+	"IceSerpent", "Monkey", "Owl", "Raccoon", "Robin", "Unicorn", "Turtle", "Eagle", "Deer", "Bear"
 }
 
 local GearItems = {
@@ -31,6 +31,10 @@ local GearItems = {
 	"Invisibility Mushroom", "Jump Mushroom", "Lantern", "Legendary Sprinkler", "Padding", "Rare Sprinkler",
 	"Shrink Mushroom", "Sign", "Speed Mushroom", "Super Sprinkler", "Super Watering Can", "Supersize Mushroom",
 	"Teleporter", "Trowel", "Uncommon Sprinkler", "Wheelbarrow"
+}
+
+local EggItems = {
+	"Common Egg"
 }
 
 local GearCategoryByName = {
@@ -85,6 +89,9 @@ for _, itemName in ipairs(PetItems) do
 end
 for _, itemName in ipairs(GearItems) do
 	addDefinition("Gear", itemName, DefaultStackCount)
+end
+for _, itemName in ipairs(EggItems) do
+	addDefinition("Egg", itemName, DefaultStackCount)
 end
 
 if _G.MailboxLeftUI then
@@ -405,6 +412,8 @@ create("UIListLayout", {
 local function kindLabel(kind)
 	if kind == "Plant" then
 		return "Seed/Fruit"
+	elseif kind == "Egg" then
+		return "Egg"
 	end
 	return kind
 end
@@ -698,6 +707,29 @@ local function getGearDefinition(item)
 	return definition, category, gearName, count, gearName
 end
 
+local function getEggDefinition(item)
+	local eggName = item:GetAttribute("Egg")
+		or item:GetAttribute("EggName")
+		or item:GetAttribute("PetEgg")
+		or item:GetAttribute("ItemName")
+
+	if type(eggName) ~= "string" or eggName == "" then
+		if item:GetAttribute("MainCategory") == "Egg" or item:GetAttribute("ItemType") == "Egg" then
+			eggName = parseNameBeforeBracket(item.Name)
+		else
+			return nil
+		end
+	end
+
+	local definition = getDefinition("Egg", eggName)
+	if not definition then
+		return nil
+	end
+
+	local count = tonumber(item:GetAttribute("Count")) or 1
+	return definition, "Eggs", eggName, count, eggName
+end
+
 local function getSelectedItemsFromBackpack()
 	local backpack = LocalPlayer:FindFirstChild("Backpack")
 	local batch = {}
@@ -724,6 +756,9 @@ local function getSelectedItemsFromBackpack()
 			end
 			if not definition then
 				definition, category, itemKey, stackCount, displayName = getGearDefinition(item)
+			end
+			if not definition then
+				definition, category, itemKey, stackCount, displayName = getEggDefinition(item)
 			end
 
 			if definition and remaining[definition] and remaining[definition] > 0 then
