@@ -17,7 +17,7 @@ local DefaultSingleCount = 1
 
 local PlantItems = {
 	"Hypno Bloom","Mega","Rainbow","Gold","Acorn", "Apple", "Bamboo", "Banana", "Blueberry", "Cactus", "Carrot", "Cherry", "Coconut",
-	"Corn", "Dragon fruit", "Dragon's Breath", "Grape", "Green bean", "Mango", "Moon bloom", "Mushroom",
+	"Corn", "Dragon fruit", "Dragon's Breath", "Grape", "Green bean", "Mango", "Moon Bloom", "Mushroom",
 	"Pineapple", "Poison apple", "Pomegranate", "Strawberry", "Sunflower", "Tomato", "Tulip", "Venus fly trap", "Venom Spitter"
 }
 
@@ -34,7 +34,7 @@ local GearItems = {
 }
 
 local EggItems = {
-	"Common Egg"
+	"Common Egg","Rainbow Egg"
 }
 
 local GearCategoryByName = {
